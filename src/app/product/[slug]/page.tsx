@@ -11,7 +11,7 @@ type ProductPageProps = {
 }
 
 const getProductInfo = async (slug: string) => {
-  const res = await fetch(`http://localhost:4000/products/${slug}`, {cache: "no-store", next: {tags: ['product']}})
+  const res = await fetch(`http://localhost:4000/products/${slug}`, {cache: "no-store"})
 
   if (!res.ok) throw new Error('Failed to fetch product info');
 
@@ -36,7 +36,7 @@ export default async function ProductPage({params}: ProductPageProps) {
           <ProductInfo product={product}/>
         </div>
 
-        <ProductReviews reviews={product.reviews} productId={product.id}/>
+        <ProductReviews reviews={product.reviews} productId={product.id} productSlug={product.slug}/>
       </div>
     </main>
   )

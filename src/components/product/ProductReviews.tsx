@@ -1,19 +1,28 @@
 import {Product} from "@/types/product";
+import {LeaveReviewModal} from "@/components/product/LeaveReviewModal";
 
-export const ProductReviews = ({reviews, productId}: { reviews: Product['reviews'], productId: number }) => {
+export const ProductReviews = ({reviews, productId, productSlug}: { reviews: Product['reviews'], productId: number, productSlug: string }) => {
 
-  if (reviews.length === 0) return (
-    <div className="col-span-full text-center py-10 text-muted-foreground bg-muted/30 rounded-xl">
-      No review yet.
-    </div>
-  )
+  if (reviews.length === 0) {
+    return (
+      <div className="flex flex-col items-center gap-4 py-10 bg-muted/30 rounded-xl">
+        <p className="text-muted-foreground text-center">
+          No reviews yet. Be the first to leave a review!
+        </p>
+        <LeaveReviewModal
+          productId={productId}
+          productSlug={productSlug}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col gap-8">
 
       <div className="flex items-center justify-between">
         <h2 className="text-foreground text-2xl md:text-3xl font-bold">Reviews ({reviews.length})</h2>
-        <button className="text-primary font-medium hover:underline text-sm cursor-pointer">Write a review</button>
+        <LeaveReviewModal productId={productId} productSlug={productSlug}/>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
