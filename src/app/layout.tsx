@@ -18,9 +18,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={inter.className}>
-      <body className="min-h-screen bg-background text-foreground" suppressHydrationWarning>
+      <body className="min-h-screen bg-background text-foreground flex flex-col" suppressHydrationWarning>
         <Header/>
-        {children}
+        <main className="flex-1 flex flex-col">
+          {children}
+        </main>
       </body>
     </html>
   );
