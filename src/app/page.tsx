@@ -13,7 +13,7 @@ export default async function ProductPage() {
   const products: Product[] = await getProducts();
 
   return (
-    <main className="min-h-screen bg-background pb-10">
+    <div className="flex-1 mt-8 pb-10">
       <div className="container mx-auto px-4">
         <h2 className="text-3xl font-bold mb-6 text-foreground">Catalog of products</h2>
 
@@ -27,6 +27,6 @@ export default async function ProductPage() {
           </div>
         )}
       </div>
-    </main>
+    </div>
   );
 }

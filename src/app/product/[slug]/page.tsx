@@ -23,7 +23,7 @@ export default async function ProductPage({params}: ProductPageProps) {
   const product: Product = await getProductInfo(slug);
 
   return (
-    <main className="min-h-screen bg-background pb-10">
+    <div className="flex-1 mt-8 pb-10">
       <div className="container mx-auto px-4">
         <div className="text-sm text-muted-foreground mb-6">
           <Link href="/" className="hover:text-primary transition-colors">Catalog</Link>
@@ -38,6 +38,6 @@ export default async function ProductPage({params}: ProductPageProps) {
 
         <ProductReviews reviews={product.reviews} productId={product.id} productSlug={product.slug}/>
       </div>
-    </main>
+    </div>
   )
 }
