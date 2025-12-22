@@ -11,7 +11,7 @@ type ProductPageProps = {
 }
 
 const getProductInfo = async (slug: string) => {
-  const res = await fetch(`http://localhost:4000/products/${slug}`, {cache: "no-store"})
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/products/${slug}`, {cache: "no-store"})
 
   if (!res.ok) throw new Error('Failed to fetch product info');
 

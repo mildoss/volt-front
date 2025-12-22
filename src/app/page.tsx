@@ -2,7 +2,7 @@ import {Product} from "@/types/product";
 import {ProductCard} from "@/components/product/ProductCard";
 
 const getProducts = async () => {
-  const res = await fetch('http://localhost:4000/products', {cache: 'no-store'});
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/products`, {cache: 'no-store'});
 
   if (!res.ok) throw new Error('Failed to fetch products')
 

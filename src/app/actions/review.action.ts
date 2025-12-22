@@ -16,7 +16,7 @@ export async function leaveReview(productId: number, productSlug: string, formDa
   }
 
   try {
-    const res = await fetch(`http://localhost:4000/reviews/leave/${productId}`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/reviews/leave/${productId}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
