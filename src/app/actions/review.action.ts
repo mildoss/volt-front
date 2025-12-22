@@ -33,7 +33,7 @@ export async function leaveReview(productId: number, productSlug: string, formDa
       return { error: errorData.message || 'Error sending' };
     }
 
-    revalidatePath(`/product${productSlug}`)
+    revalidatePath(`/product/${productSlug}`)
     return { success: true }
 
   } catch (e) {
