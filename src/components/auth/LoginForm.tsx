@@ -17,7 +17,7 @@ const formSchema = z.object({
 export type TypeLoginSchema = z.infer<typeof formSchema>;
 
 export const LoginForm = () => {
-  const [isPending, startTransaction] = useTransition();
+  const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
 
 
@@ -32,7 +32,7 @@ export const LoginForm = () => {
   const onSubmit = (values: TypeLoginSchema)=> {
     setError(null);
 
-    startTransaction(async () => {
+    startTransition(async () => {
       const res = await loginAction(values);
       if (res?.error) {
         setError(res.error);
@@ -64,7 +64,7 @@ export const LoginForm = () => {
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input type="password"  placeholder="******" {...field} disabled={isPending}/>
+                <Input type="password" placeholder="******" {...field} disabled={isPending}/>
               </FormControl>
               <FormMessage/>
             </FormItem>
