@@ -69,3 +69,27 @@ export async function registerAction(values: TypeRegisterSchema) {
 
   redirect('/');
 }
+
+export async function getProfile() {
+  const cookieStore = await cookies();
+  const tokenCookie = cookieStore.get('token');
+  const token = tokenCookie?.value;
+
+  if (!token) return null;
+
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users/profile`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      },
+    });
+
+    if (!res.ok) return null;
+
+    return await res.json();
+  } catch (error) {
+    console.error('Get profile error:', error);
+    return null;
+  }
+}
