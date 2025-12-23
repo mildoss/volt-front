@@ -1,6 +1,8 @@
 import {Product} from "@/types/product";
 
 export const ProductInfo = ({ product }: { product: Product }) => {
+  const isAvailable = product.stock > 0;
+
   return (
     <div className="flex flex-col">
       <div className="text-primary font-medium mb-2 tracking-wide uppercase text-xs">
@@ -15,9 +17,15 @@ export const ProductInfo = ({ product }: { product: Product }) => {
         <div className="text-3xl font-bold text-foreground">
           {new Intl.NumberFormat('en-US', {style: 'currency', currency: 'USD'}).format(product.price)}
         </div>
+        {isAvailable ? (
         <span className="text-xs font-bold text-green-600 bg-green-100 px-2 py-1 rounded mb-1">
-                In Stock
-              </span>
+          In Stock: {product.stock}
+        </span>
+        ) : (
+          <span className="text-xs font-bold text-destructive-foreground bg-destructive px-2 py-1 rounded mb-1">
+          Not available
+        </span>
+        )}
       </div>
 
       <p className="text-muted-foreground leading-relaxed mb-8 text-base">
@@ -26,7 +34,13 @@ export const ProductInfo = ({ product }: { product: Product }) => {
 
       <div className="flex gap-4">
         <button
-          className="flex-1 bg-primary text-primary-foreground font-medium py-4 px-6 rounded-lg hover:bg-blue-600 transition-colors shadow-lg shadow-blue-500/20 active:scale-95 transform duration-100 cursor-pointer">
+          disabled={!isAvailable}
+          className={`flex-1  font-medium py-4 px-6 rounded-lg 
+          transition-colors shadow-lg transform duration-100
+          ${isAvailable 
+            ? 'bg-primary text-primary-foreground hover:bg-blue-600 shadow-blue-500/20 active:scale-95 cursor-pointer' 
+            : 'bg-muted text-muted-foreground cursor-not-allowed'}`}
+        >
           Add to cart
         </button>
         <button

@@ -34,9 +34,9 @@ export const ProductReviews = ({reviews, productId, productSlug}: { reviews: Pro
             <div className="flex items-center gap-3">
               <div
                 className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-sm">
-                {review.user.email[0]}
+                {review.user.fullName ? review.user.fullName[0].toUpperCase() : 'A'}
               </div>
-              <h3 className="font-bold text-sm text-foreground">{review.user.name || 'Anonymous'}</h3>
+              <h3 className="font-bold text-sm text-foreground">{review.user.fullName || 'Anonymous'}</h3>
               <div
                 className="text-yellow-500 text-xs tracking-widest">{'★'.repeat(review.rating)}{'☆'.repeat(5 - review.rating)}</div>
               <span

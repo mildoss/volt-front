@@ -1,8 +1,7 @@
 export type User = {
   id: number;
-  email: string;
-  name?: string;
-  avatarPath?: string;
+  fullName?: string;
+  avatarUrl?: string;
 }
 
 export type Review = {
@@ -20,7 +19,7 @@ export type Product = {
   description: string;
   price: number;
   imageUrl: string;
-  stock: string;
+  stock: number;
   category: Category;
   reviews: Review[];
 }
