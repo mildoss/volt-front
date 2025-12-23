@@ -2,6 +2,7 @@ import {Metadata} from "next";
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs";
 import {LoginForm} from "@/components/auth/LoginForm";
+import {RegisterForm} from "@/components/auth/RegisterForm";
 
 export const metadata: Metadata = {
   title: "Auth | Volt Shop",
@@ -20,14 +21,14 @@ export default function AuthPage() {
           <Tabs defaultValue="login" className="w-full">
             <TabsList className="grid w-full grid-cols-2 mb-4">
               <TabsTrigger value="login">Log in</TabsTrigger>
-              <TabsTrigger value="registser">Register</TabsTrigger>
+              <TabsTrigger value="register">Register</TabsTrigger>
             </TabsList>
 
             <TabsContent value="login">
               <LoginForm/>
             </TabsContent>
             <TabsContent value="register">
-
+              <RegisterForm/>
             </TabsContent>
           </Tabs>
         </CardContent>
