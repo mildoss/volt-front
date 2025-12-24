@@ -93,3 +93,9 @@ export async function getProfile() {
     return null;
   }
 }
+
+export async function logoutAction() {
+  const cookieStore = await cookies();
+  cookieStore.delete('token');
+  redirect('/');
+}
