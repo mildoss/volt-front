@@ -2,6 +2,7 @@ export type User = {
   id: number;
   fullName?: string;
   avatarUrl?: string;
+  favorites?: Product[];
 }
 
 export type Review = {

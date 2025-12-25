@@ -1,6 +1,13 @@
 import {Product} from "@/types/product";
+import {FavoriteButton} from "@/components/product/FavoriteButton";
 
-export const ProductInfo = ({ product }: { product: Product }) => {
+type ProductInfoProps = {
+  product: Product;
+  isFavorite: boolean;
+  isLoggedIn: boolean;
+}
+
+export const ProductInfo = ({ product, isFavorite, isLoggedIn }: ProductInfoProps) => {
   const isAvailable = product.stock > 0;
 
   return (
@@ -43,10 +50,12 @@ export const ProductInfo = ({ product }: { product: Product }) => {
         >
           Add to cart
         </button>
-        <button
-          className="px-6 py-4 border border-border rounded-lg hover:bg-muted text-foreground transition-colors active:scale-95 cursor-pointer">
-          ♥
-        </button>
+        <FavoriteButton
+          productId={product.id}
+          productSlug={product.slug}
+          isFavorite={isFavorite}
+          isLoggedIn={isLoggedIn}
+        />
       </div>
 
       <div className="mt-8 pt-8 border-t border-border grid grid-cols-2 gap-4 text-sm">
