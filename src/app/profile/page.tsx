@@ -4,13 +4,15 @@ import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
 import {Metadata} from "next";
 import {Button} from "@/components/ui/button";
 import Link from "next/link";
+import {User} from "@/types/product";
+import {ProductCard} from "@/components/product/ProductCard";
 
 export const metadata: Metadata = {
   title: "Profile | Volt Shop",
 };
 
 export default async function ProfilePage() {
-  const user = await getProfile();
+  const user: User = await getProfile();
 
   if (!user) redirect('/auth');
 
@@ -18,7 +20,7 @@ export default async function ProfilePage() {
     <div className="container mx-auto px-4 py-10">
       <h1 className="text-3xl font-bold mb-8">My Profile</h1>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
         <Card>
           <CardHeader>
             <CardTitle>Personal Info</CardTitle>
@@ -60,6 +62,23 @@ export default async function ProfilePage() {
             </Button>
           </CardContent>
         </Card>
+      </div>
+
+      <div>
+        <h2 className="text-2xl font-bold mb-6">My Favorites ({user.favorites?.length || 0})</h2>
+
+        {(!user.favorites || user.favorites.length === 0) ? (
+        <div className="text-muted-foreground">
+          You haven&#39;t added any products to favorites yet.
+          <Link href="/" className="text-primary hover:underline ml-1">Go to catalog</Link>
+        </div>
+        ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {user.favorites?.map((product => (
+            <ProductCard key={product.id} product={product}/>
+          )))}
+        </div>
+        )}
       </div>
     </div>
   )
