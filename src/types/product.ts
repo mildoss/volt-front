@@ -30,3 +30,14 @@ type Category = {
   id: number;
   name: string;
 }
+
+export type CartItem = {
+  id: number;
+  quantity: number;
+  product: Product;
+}
+
+export type Cart = {
+  id: number;
+  items: CartItem[];
+}
