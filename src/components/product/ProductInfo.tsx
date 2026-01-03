@@ -1,5 +1,6 @@
 import {Product} from "@/types/product";
 import {FavoriteButton} from "@/components/product/FavoriteButton";
+import {AddToCartButton} from "@/components/product/AddToCartButton";
 
 type ProductInfoProps = {
   product: Product;
@@ -40,16 +41,11 @@ export const ProductInfo = ({ product, isFavorite, isLoggedIn }: ProductInfoProp
       </p>
 
       <div className="flex gap-4">
-        <button
-          disabled={!isAvailable}
-          className={`flex-1  font-medium py-4 px-6 rounded-lg 
-          transition-colors shadow-lg transform duration-100
-          ${isAvailable 
-            ? 'bg-primary text-primary-foreground hover:bg-blue-600 shadow-blue-500/20 active:scale-95 cursor-pointer' 
-            : 'bg-muted text-muted-foreground cursor-not-allowed'}`}
-        >
-          Add to cart
-        </button>
+        <AddToCartButton
+          productId={product.id}
+          isAvailable={isAvailable}
+          isLoggedIn={isLoggedIn}
+        />
         <FavoriteButton
           productId={product.id}
           productSlug={product.slug}

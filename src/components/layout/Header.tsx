@@ -1,18 +1,27 @@
 import Link from "next/link";
 import {getProfile} from "@/app/actions/auth.actions";
+import {getCart} from "@/app/actions/cart.action";
+import {CartSheet} from "@/components/cart/CartSheet";
 
 export const Header = async () => {
-  const user = await getProfile();
+  const userData = getProfile();
+  const cartData = getCart();
+
+  const [user, cart] = await Promise.all([userData, cartData]);
 
   return (
     <header className="bg-card border-b border-border py-4">
       <div className="container mx-auto px-4 flex justify-between items-center">
-        <h1 className="text-2xl font-bold text-primary">Volt Shop ⚡️</h1>
+        <Link href="/" className="text-2xl font-bold text-primary tracking-tighter">Volt Shop ⚡️</Link>
         {user ? (
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 md:gap-4">
             <span className="text-sm font-medium hidden md:block">
               Hi, {user.fullName || user.email}
             </span>
+
+            <CartSheet cart={cart} />
+
+            <div className="h-6 w-px bg-border mx-1"></div>
             
             <Link
               href="/profile"
