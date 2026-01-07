@@ -4,15 +4,31 @@ import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
 import {Metadata} from "next";
 import {Button} from "@/components/ui/button";
 import Link from "next/link";
-import {User} from "@/types/product";
+import {User, Order} from "@/types/product";
 import {ProductCard} from "@/components/product/ProductCard";
+import {getMyOrders} from "@/app/actions/order.actions";
+import Image from 'next/image'
 
 export const metadata: Metadata = {
   title: "Profile | Volt Shop",
 };
 
+const formatDate = (dateString: string) => {
+  return new Date(dateString).toLocaleDateString('en-US', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric'
+  });
+}
+
+const formatPrice = (price: number) =>
+  new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(price);
+
 export default async function ProfilePage() {
-  const user: User = await getProfile();
+  const userData = getProfile();
+  const ordersData = getMyOrders();
+
+  const [user, orders] = await Promise.all([userData, ordersData]) as [User, Order[]];
 
   if (!user) redirect('/auth');
 
@@ -51,15 +67,51 @@ export default async function ProfilePage() {
           </CardContent>
         </Card>
 
-        <Card className="opacity-60">
+        <Card className="h-fit max-h-[500px] flex flex-col">
           <CardHeader>
-            <CardTitle>Order History</CardTitle>
+            <CardTitle>Order History ({orders.length})</CardTitle>
           </CardHeader>
-          <CardContent>
-            <p className="text-muted-foreground">You haven&#39;t placed any orders yet.</p>
-            <Button variant="link" className="px-0 mt-2" disabled>
-              View all orders (Coming soon)
-            </Button>
+          <CardContent className="overflow-y-auto pr-2 flex-1">
+            {orders.length === 0 ? (
+              <div className="text-muted-foreground">
+                You haven&#39;t placed any orders yet.
+              </div>
+            ) : (
+              <div className="space-y-6">
+                {orders.map((order) => (
+                  <div key={order.id} className="border-b border-border last:border-0 pb-4 last:pb-0">
+                    <div className="flex justify-between items-start mb-2">
+                      <div>
+                        <span className="font-bold">Order #{order.id}</span>
+                        <span className="text-xs text-muted-foreground ml-2">
+                          {formatDate(order.createdAt)}
+                        </span>
+                      </div>
+                      <span className={`text-xs font-bold px-2 py-1 rounded 
+                        ${order.status === 'PENDING' ? 'bg-yellow-100 text-yellow-700' :
+                        order.status === 'DELIVERED' ? 'bg-green-100 text-green-700' : 'bg-gray-100'}`}>
+                        {order.status}
+                      </span>
+                    </div>
+
+                    <div className="flex gap-2 overflow-x-auto pb-2">
+                      {order.items.map((item) => (
+                        <div key={item.id} className="w-12 h-12 relative shrink-0 bg-muted rounded overflow-hidden border">
+                          {item.product.imageUrl && (
+                            <Image src={item.product.imageUrl} alt={item.product?.name || 'Product'} fill className="object-cover" />
+                          )}
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="flex justify-between items-center mt-2 text-sm">
+                      <span className="text-muted-foreground">Total:</span>
+                      <span className="font-bold">{formatPrice(order.total)}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </CardContent>
         </Card>
       </div>

@@ -36,3 +36,27 @@ export async function placeOrder(data: CheckoutFormData) {
     return { error: 'Server connection error' };
   }
 }
+
+export async function getMyOrders() {
+  const cookieStore = await cookies();
+  const token = cookieStore.get('token')?.value;
+
+  if (!token) return [];
+
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/orders`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      },
+      cache: 'no-store'
+    });
+
+    if (!res.ok) return [];
+
+    return res.json();
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+}
