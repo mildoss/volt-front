@@ -11,6 +11,7 @@ import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/
 import {Input} from "@/components/ui/input";
 import {Button} from "@/components/ui/button";
 import Image from "next/image";
+import {formatPrice} from "@/lib/utils";
 
 const formSchema = z.object({
   address: z.string().min(5, 'Address is too short'),
@@ -19,10 +20,6 @@ const formSchema = z.object({
 })
 
 type TypeCheckoutSchema = z.infer<typeof formSchema>;
-
-const formatPrice = (price: number) =>
-  new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(price);
-
 
 export const CheckoutForm = ({cart, user} : {cart: Cart, user: User | null}) => {
   const [isPending, startTransition] = useTransition();

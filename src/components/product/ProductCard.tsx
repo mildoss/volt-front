@@ -1,6 +1,7 @@
 import {Product} from "@/types/product";
 import Image from "next/image";
 import Link from "next/link";
+import {formatPrice} from "@/lib/utils";
 
 export const ProductCard = ({product}: { product: Product }) => {
   return (
@@ -28,7 +29,7 @@ export const ProductCard = ({product}: { product: Product }) => {
         <h3 className="font-bold text-lg mb-2 truncate text-foreground">{product.name}</h3>
         <div className="flex justify-between items-center mt-3">
           <span className="text-xl font-bold text-foreground">
-            {new Intl.NumberFormat('en-US', {style: 'currency', currency: 'USD'}).format(product.price)}
+            {formatPrice(product.price)}
           </span>
         </div>
       </div>

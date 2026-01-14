@@ -1,6 +1,7 @@
 import {Product} from "@/types/product";
 import {FavoriteButton} from "@/components/product/FavoriteButton";
 import {AddToCartButton} from "@/components/product/AddToCartButton";
+import {formatPrice} from "@/lib/utils";
 
 type ProductInfoProps = {
   product: Product;
@@ -23,7 +24,7 @@ export const ProductInfo = ({ product, isFavorite, isLoggedIn }: ProductInfoProp
 
       <div className="flex items-end gap-4 mb-6">
         <div className="text-3xl font-bold text-foreground">
-          {new Intl.NumberFormat('en-US', {style: 'currency', currency: 'USD'}).format(product.price)}
+          {formatPrice(product.price)}
         </div>
         {isAvailable ? (
         <span className="text-xs font-bold text-green-600 bg-green-100 px-2 py-1 rounded mb-1">

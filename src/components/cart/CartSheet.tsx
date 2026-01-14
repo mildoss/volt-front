@@ -9,11 +9,7 @@ import Link from "next/link";
 import Image from "next/image";
 import {useTransition} from "react";
 import {removeFromCart, updateQuantity} from "@/app/actions/cart.action";
-
-const formatPrice = (price: number) => new Intl.NumberFormat('en-US', {
-  style: 'currency',
-  currency: 'USD'
-}).format(price);
+import {formatPrice} from "@/lib/utils";
 
 export const CartSheet = ({cart}: { cart: Cart | null }) => {
   const [isPending, startTransition] = useTransition();

@@ -9,6 +9,7 @@ import {ProductCard} from "@/components/product/ProductCard";
 import {getMyOrders} from "@/app/actions/order.actions";
 import Image from 'next/image'
 import {UserAvatar} from "@/components/ui/user-avatar";
+import {formatPrice} from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "Profile | Volt Shop",
@@ -21,9 +22,6 @@ const formatDate = (dateString: string) => {
     year: 'numeric'
   });
 }
-
-const formatPrice = (price: number) =>
-  new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(price);
 
 export default async function ProfilePage() {
   const userData = getProfile();
