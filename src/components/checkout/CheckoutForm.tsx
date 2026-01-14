@@ -1,6 +1,6 @@
 'use client'
 
-import {Cart} from "@/types/product";
+import {Cart, User} from "@/types/product";
 import {z} from "zod";
 import {useTransition} from "react";
 import {useRouter} from "next/navigation";
@@ -24,15 +24,15 @@ const formatPrice = (price: number) =>
   new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(price);
 
 
-export const CheckoutForm = ({cart} : {cart: Cart}) => {
+export const CheckoutForm = ({cart, user} : {cart: Cart, user: User | null}) => {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
 
   const form = useForm<TypeCheckoutSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      address: '',
-      phone: '',
+      address: user?.address || '',
+      phone: user?.phone || '',
       comment: ''
     }
   });
