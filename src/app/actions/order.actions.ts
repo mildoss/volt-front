@@ -1,7 +1,7 @@
 'use server'
 
-import {cookies} from "next/headers";
-import {revalidatePath} from "next/cache";
+import { revalidatePath } from "next/cache";
+import { fetchClient } from "@/lib/api";
 
 export type CheckoutFormData = {
   address: string;
@@ -10,53 +10,19 @@ export type CheckoutFormData = {
 }
 
 export async function placeOrder(data: CheckoutFormData) {
-  const cookieStore = await cookies();
-  const token = cookieStore.get('token')?.value;
+  const res = await fetchClient('/orders', {
+    method: 'POST',
+    body: JSON.stringify(data)
+  });
 
-  if (!token) return { error: 'Unauthorized' };
+  if (res?.error) return { error: res.error };
 
-  try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/orders`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      },
-      body: JSON.stringify(data)
-    });
-
-    if (!res.ok) {
-      const errorData = await res.json();
-      return { error: errorData.message || 'Error creating order' };
-    }
-
-    revalidatePath('layout');
-    return { success: true };
-  } catch (error) {
-    return { error: 'Server connection error' };
-  }
+  revalidatePath('/', 'layout');
+  return { success: true };
 }
 
 export async function getMyOrders() {
-  const cookieStore = await cookies();
-  const token = cookieStore.get('token')?.value;
-
-  if (!token) return [];
-
-  try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/orders`, {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${token}`
-      },
-      cache: 'no-store'
-    });
-
-    if (!res.ok) return [];
-
-    return res.json();
-  } catch (error) {
-    console.error(error);
-    return [];
-  }
+  const res = await fetchClient('/orders');
+  if (res?.error) return [];
+  return res;
 }

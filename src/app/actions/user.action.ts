@@ -1,8 +1,7 @@
 "use server"
 
-import {cookies} from "next/headers";
-import {revalidatePath} from "next/cache";
-
+import { revalidatePath } from "next/cache";
+import { fetchClient } from "@/lib/api";
 
 type UserUpdateData = {
   email: string;
@@ -15,55 +14,25 @@ type UserUpdateData = {
 }
 
 export async function toggleFavorite(productId: number, productSlug: string) {
-  const cookieStore = await cookies();
-  const tokenCookie = cookieStore.get('token');
-  const token = tokenCookie?.value;
+  const res = await fetchClient(`/users/profile/favorites/${productId}`, {
+    method: 'PATCH'
+  });
 
-  if (!token) return { error: 'Unauthorized' };
+  if (res?.error) return { error: res.error };
 
-  try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users/profile/favorites/${productId}`, {
-      method: 'PATCH',
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    })
-
-    if (!res.ok) return { error: 'Error toggling favorite' }
-
-    revalidatePath(`/product/${productSlug}`);
-    revalidatePath('/profile');
-
-    return { success: true };
-  } catch (err) {
-    return { error: 'Server connection error' }
-  }
+  revalidatePath(`/product/${productSlug}`);
+  revalidatePath('/profile');
+  return { success: true };
 }
 
 export async function updateProfile(formData: UserUpdateData) {
-  const cookieStore = await cookies();
-  const token = cookieStore.get('token')?.value;
+  const res = await fetchClient('/users/profile', {
+    method: 'PATCH',
+    body: JSON.stringify(formData)
+  });
 
-  if (!token) return { error: 'Unauthorized' };
+  if (res?.error) return { error: res.error };
 
-  try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users/profile`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      },
-      body: JSON.stringify(formData)
-    });
-
-    if (!res.ok) {
-      const errorData = await res.json();
-      return { error: errorData.message || 'Error updating profile' };
-    }
-
-    revalidatePath('/profile');
-    return { success: true };
-  } catch (error) {
-    return { error: 'Server connection error' };
-  }
+  revalidatePath('/profile');
+  return { success: true };
 }
