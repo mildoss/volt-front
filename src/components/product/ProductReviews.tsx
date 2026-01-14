@@ -1,5 +1,6 @@
 import {Product} from "@/types/product";
 import {LeaveReviewModal} from "@/components/product/LeaveReviewModal";
+import {UserAvatar} from "@/components/ui/user-avatar";
 
 export const ProductReviews = ({reviews, productId, productSlug}: { reviews: Product['reviews'], productId: number, productSlug: string }) => {
 
@@ -32,10 +33,7 @@ export const ProductReviews = ({reviews, productId, productSlug}: { reviews: Pro
             key={review.id}
             className="bg-card border-border p-6 rounded-xl flex flex-col gap-4 shadow-sm hover:shadow-md transition-colors">
             <div className="flex items-center gap-3">
-              <div
-                className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-sm">
-                {review.user.fullName ? review.user.fullName[0].toUpperCase() : 'A'}
-              </div>
+              <UserAvatar user={review.user} size={40} />
               <h3 className="font-bold text-sm text-foreground">{review.user.fullName || 'Anonymous'}</h3>
               <div
                 className="text-yellow-500 text-xs tracking-widest">{'★'.repeat(review.rating)}{'☆'.repeat(5 - review.rating)}</div>

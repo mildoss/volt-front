@@ -8,6 +8,7 @@ import {User, Order} from "@/types/product";
 import {ProductCard} from "@/components/product/ProductCard";
 import {getMyOrders} from "@/app/actions/order.actions";
 import Image from 'next/image'
+import {UserAvatar} from "@/components/ui/user-avatar";
 
 export const metadata: Metadata = {
   title: "Profile | Volt Shop",
@@ -44,11 +45,7 @@ export default async function ProfilePage() {
 
           <CardContent>
             <div className="flex items-center gap-4">
-              <div
-                className="w-20 h-20 rounded-full bg-primary/10 flex items-center
-                justify-center text-primary text-3xl font-bold">
-                {user.fullName ? user.fullName[0].toUpperCase() : user.email[0].toUpperCase()}
-              </div>
+              <UserAvatar user={user} size={80} className="text-3xl"/>
               <div>
                 <h2 className="text-xl font-bold">{user.fullName || 'Anonymous'}</h2>
                 <p className="text-muted-foreground">{user.email}</p>

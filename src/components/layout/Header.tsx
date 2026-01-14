@@ -2,6 +2,7 @@ import Link from "next/link";
 import {getProfile} from "@/app/actions/auth.actions";
 import {getCart} from "@/app/actions/cart.action";
 import {CartSheet} from "@/components/cart/CartSheet";
+import {UserAvatar} from "@/components/ui/user-avatar";
 
 export const Header = async () => {
   const userData = getProfile();
@@ -22,13 +23,9 @@ export const Header = async () => {
             <CartSheet cart={cart} />
 
             <div className="h-6 w-px bg-border mx-1"></div>
-            
-            <Link
-              href="/profile"
-              className="w-10 h-10 rounded-full bg-primary text-primary-foreground flex items-center justify-center
-              font-bold text-lg hover:opacity-90 transition-opacity"
-            >
-              {user.fullName ? user.fullName[0].toUpperCase() : user.email[0].toUpperCase()}
+
+            <Link href="/profile">
+              <UserAvatar user={user} size={40} />
             </Link>
           </div>
           )
