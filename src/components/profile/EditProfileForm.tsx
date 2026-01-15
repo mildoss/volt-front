@@ -10,6 +10,7 @@ import { useTransition } from "react";
 import { updateProfile } from "@/app/actions/user.action";
 import { User } from "@/types/product";
 import { useRouter } from "next/navigation";
+import {toast} from "sonner";
 
 const formSchema = z.object({
   email: z.email(),
@@ -62,9 +63,9 @@ export const EditProfileForm = ({ user }: { user: User }) => {
       const res = await updateProfile(dataToSend);
 
       if (res?.error) {
-        alert(res.error);
+        toast.error(res.error);
       } else {
-        alert("Profile updated successfully! ✅");
+        toast.success("Profile updated successfully! ✅");
         router.refresh();
         router.push('/profile');
       }

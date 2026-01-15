@@ -8,6 +8,7 @@ import {useState, useTransition} from "react";
 import {loginAction} from "@/app/actions/auth.actions";
 import {Input} from "@/components/ui/input";
 import {Button} from "@/components/ui/button";
+import {toast} from "sonner";
 
 const formSchema = z.object({
   email: z.email({ message: 'Enter a correct email' }),
@@ -18,8 +19,6 @@ export type TypeLoginSchema = z.infer<typeof formSchema>;
 
 export const LoginForm = () => {
   const [isPending, startTransition] = useTransition();
-  const [error, setError] = useState<string | null>(null);
-
 
   const form = useForm<TypeLoginSchema>({
     resolver: zodResolver(formSchema),
@@ -30,12 +29,12 @@ export const LoginForm = () => {
   });
 
   const onSubmit = (values: TypeLoginSchema)=> {
-    setError(null);
-
     startTransition(async () => {
       const res = await loginAction(values);
       if (res?.error) {
-        setError(res.error);
+        toast.error(res.error);
+      } else {
+        toast.success('Welcome back!');
       }
     })
   };
@@ -70,12 +69,6 @@ export const LoginForm = () => {
             </FormItem>
           )}
         />
-
-        {error && (
-          <div className="bg-destructive/15 p-3 rounded-md flex items-center gap-x-2 text-sm text-destructive">
-            {error}
-          </div>
-        )}
 
         <Button type="submit" className="w-full cursor-pointer" disabled={isPending}>
           {isPending ? 'Login...' : 'Login'}

@@ -8,6 +8,7 @@ import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/
 import {Input} from "@/components/ui/input";
 import {registerAction} from "@/app/actions/auth.actions";
 import {Button} from "@/components/ui/button";
+import {toast} from "sonner";
 
 const formSchema = z.object({
   fullName: z.string().min(3, 'Minimum 3 characters').max(32, 'Maximum 32 characters').optional().or(z.literal('')),
@@ -19,7 +20,6 @@ export type TypeRegisterSchema = z.infer<typeof formSchema>;
 
 export const RegisterForm = () => {
   const [isPending, startTransition] = useTransition();
-  const [error, setError] = useState<string | null>(null);
 
   const form = useForm<TypeRegisterSchema>({
     resolver: zodResolver(formSchema),
@@ -31,7 +31,6 @@ export const RegisterForm = () => {
   });
 
   const onSubmit = (values: TypeRegisterSchema)=> {
-    setError(null);
 
     const cleanedValues = {
       ...values,
@@ -41,7 +40,9 @@ export const RegisterForm = () => {
     startTransition(async () => {
       const res = await registerAction(cleanedValues);
       if (res?.error) {
-        setError(res.error);
+        toast.error(res.error); // 👈 Тост
+      } else {
+        toast.success('Account created!');
       }
     })
   }
@@ -90,12 +91,6 @@ export const RegisterForm = () => {
             </FormItem>
           )}
         />
-
-        {error && (
-          <div className="bg-destructive/15 p-3 rounded-md flex items-center gap-x-2 text-sm text-destructive">
-            {error}
-          </div>
-        )}
 
         <Button type="submit" className="w-full cursor-pointer" disabled={isPending}>
           {isPending ? 'Register...' : 'Register'}

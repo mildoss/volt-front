@@ -4,6 +4,7 @@ import {Button} from "@/components/ui/button";
 import {useTransition} from "react";
 import {useRouter} from "next/navigation";
 import {addToCart} from "@/app/actions/cart.action";
+import {toast} from "sonner";
 
 type Props = {
   productId: number;
@@ -18,6 +19,7 @@ export const AddToCartButton = ({productId, isAvailable, isLoggedIn}: Props) => 
   const onClick = () => {
     if (!isLoggedIn) {
       router.push('/auth');
+      toast.error('Please login to purchase');
       return;
     }
 
@@ -25,7 +27,9 @@ export const AddToCartButton = ({productId, isAvailable, isLoggedIn}: Props) => 
       const res = await addToCart(productId, 1);
 
       if (res?.error) {
-        alert(res.error);
+        toast.error(res.error);
+      } else {
+        toast.success('Product added to cart');
       }
     })
   }

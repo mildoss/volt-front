@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import {ReactNode} from "react";
 import {Header} from "@/components/layout/Header";
+import { Toaster } from "@/components/ui/sonner";
 
 const inter = Inter({subsets: ["latin"]});
 
@@ -23,6 +24,7 @@ export default function RootLayout({
         <main className="flex-1 flex flex-col">
           {children}
         </main>
+        <Toaster position="top-center" richColors />
       </body>
     </html>
   );

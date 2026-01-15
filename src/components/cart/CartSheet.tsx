@@ -63,7 +63,7 @@ export const CartSheet = ({cart}: { cart: Cart | null }) => {
                     <div className="flex items-center gap-3">
                       <div className="flex items-center gap-1 bg-muted rounded-md px-1">
                         <button
-                          disabled={isPending}
+                          disabled={isPending || item.quantity <= 1}
                           onClick={() => startTransition(async () => {
                             await updateQuantity(item.id, 'minus')
                           })}
@@ -73,7 +73,7 @@ export const CartSheet = ({cart}: { cart: Cart | null }) => {
                         </button>
                         <span className="text-xs font-bold w-4 text-center">{item.quantity}</span>
                         <button
-                          disabled={isPending}
+                          disabled={isPending || item.quantity >= item.product.stock}
                           onClick={() => startTransition(async () => {
                             await updateQuantity(item.id, 'plus')
                           })}

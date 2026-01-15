@@ -6,6 +6,7 @@ import {Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger} from "@
 import {Label} from "@/components/ui/label";
 import {Textarea} from "@/components/ui/textarea";
 import {Button} from "@/components/ui/button";
+import {toast} from "sonner";
 
 type Props = {
   productId: number;
@@ -15,7 +16,6 @@ type Props = {
 export const LeaveReviewModal = ({productId, productSlug}: Props) => {
   const [isOpen, setIsOpen] = useState(false);
   const [rating, setRating] = useState(5);
-  const [error, setError] = useState('');
 
   const handleSubmit = async (formData: FormData) => {
     formData.append('rating', rating.toString());
@@ -23,11 +23,11 @@ export const LeaveReviewModal = ({productId, productSlug}: Props) => {
     const res = await leaveReview(productId, productSlug, formData);
 
     if (res.error) {
-      setError(res.error);
+      toast.error(res.error);
     } else {
+      toast.success('Thank you for your review!');
       setIsOpen(false);
       setRating(5);
-      setError('');
     }
   }
 
@@ -69,8 +69,6 @@ export const LeaveReviewModal = ({productId, productSlug}: Props) => {
                 required
               />
             </div>
-
-            {error && <p className="text-red-500 text-sm">{error}</p>}
 
             <Button className="cursor-pointer" type="submit">Send Review</Button>
           </div>

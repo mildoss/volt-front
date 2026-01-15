@@ -12,6 +12,7 @@ import {Input} from "@/components/ui/input";
 import {Button} from "@/components/ui/button";
 import Image from "next/image";
 import {formatPrice} from "@/lib/utils";
+import {toast} from "sonner";
 
 const formSchema = z.object({
   address: z.string().min(5, 'Address is too short'),
@@ -41,7 +42,7 @@ export const CheckoutForm = ({cart, user} : {cart: Cart, user: User | null}) => 
       const res = await placeOrder(values);
 
       if (res?.error) {
-        alert(res.error);
+        toast.error(res.error);
       } else {
         router.push('/checkout/success');
       }
