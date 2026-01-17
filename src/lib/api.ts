@@ -11,9 +11,8 @@ export const fetchClient = async (path: string, options: FetchOptions = {}) => {
   const token = cookieStore.get('token')?.value;
 
   const defaultHeaders: Record<string, string> = {
-    'Content-Type': 'application/json',
+    ...(options.body instanceof FormData ? {} : { 'Content-Type': 'application/json' }),
   };
-
   if (token) {
     defaultHeaders['Authorization'] = `Bearer ${token}`;
   }

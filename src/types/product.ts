@@ -5,6 +5,7 @@ export type User = {
   phone?: string;
   address?: string;
   avatarUrl?: string;
+  role: 'ADMIN' | 'USER';
   favorites?: Product[];
 }
 
