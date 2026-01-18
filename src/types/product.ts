@@ -26,7 +26,14 @@ export type Product = {
   imageUrl: string;
   stock: number;
   category: Category;
+  specs?: object;
   reviews: Review[];
+  createdAt: string;
+  updatedAt: string;
+  user?: {
+    email: string;
+    fullName?: string;
+  };
 }
 
 type Category = {
