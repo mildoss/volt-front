@@ -83,8 +83,10 @@ export default async function ProfilePage() {
                         </span>
                       </div>
                       <span className={`text-xs font-bold px-2 py-1 rounded 
-                        ${order.status === 'PENDING' ? 'bg-yellow-100 text-yellow-700' :
-                        order.status === 'DELIVERED' ? 'bg-green-100 text-green-700' : 'bg-gray-100'}`}>
+                        ${order.status === 'PENDING' ? 'bg-yellow-100 text-yellow-700 border-yellow-200' :
+                        order.status === 'DELIVERED' ? 'bg-green-100 text-green-700 border-green-200' :
+                          order.status === 'CANCELLED' ? 'bg-red-100 text-red-700 border-red-200' : ''}
+                    `}>
                         {order.status}
                       </span>
                     </div>

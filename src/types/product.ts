@@ -52,7 +52,7 @@ export type Cart = {
   items: CartItem[];
 }
 
-export type OrderStatus = 'PENDING' | 'PAYED' | 'SHIPPED' | 'DELIVERED' | 'CANCELLED';
+export type OrderStatus = 'PENDING' | 'SHIPPED' | 'DELIVERED' | 'CANCELLED';
 
 export type OrderItem = {
   id: number;
@@ -67,4 +67,5 @@ export type Order = {
   total: number;
   items: OrderItem[];
   createdAt: string;
+  user: User;
 }
