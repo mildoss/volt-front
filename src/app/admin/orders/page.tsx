@@ -1,7 +1,6 @@
 import {getAdminOrders} from "@/app/actions/order.actions";
 import {AdminOrderList} from "@/components/admin/AdminOrderList";
-import {Property} from "csstype";
-import Order = Property.Order;
+import {Order} from "@/types/product";
 
 export default async function AdminOrdersPage() {
   const orders = await getAdminOrders() as Order[];
