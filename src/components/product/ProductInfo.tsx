@@ -9,7 +9,7 @@ type ProductInfoProps = {
   isLoggedIn: boolean;
 }
 
-export const ProductInfo = ({ product, isFavorite, isLoggedIn }: ProductInfoProps) => {
+export const ProductInfo = ({product, isFavorite, isLoggedIn}: ProductInfoProps) => {
   const isAvailable = product.stock > 0;
 
   return (
@@ -27,7 +27,7 @@ export const ProductInfo = ({ product, isFavorite, isLoggedIn }: ProductInfoProp
           {formatPrice(product.price)}
         </div>
         {isAvailable ? (
-        <span className="text-xs font-bold text-green-600 bg-green-100 px-2 py-1 rounded mb-1">
+          <span className="text-xs font-bold text-green-600 bg-green-100 px-2 py-1 rounded mb-1">
           In Stock: {product.stock}
         </span>
         ) : (
@@ -40,6 +40,20 @@ export const ProductInfo = ({ product, isFavorite, isLoggedIn }: ProductInfoProp
       <p className="text-muted-foreground leading-relaxed mb-8 text-base">
         {product.description || "No description yet."}
       </p>
+
+      {product.specs && Object.keys(product.specs).length > 0 && (
+        <div className="mb-8">
+          <h3 className="font-bold mb-3">Specifications:</h3>
+          <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2 text-sm">
+            {Object.entries(product.specs).map(([key, value]) => (
+              <li key={key} className="flex justify-between border-b border-border/50 pb-1">
+                <span className="text-muted-foreground">{key}:</span>
+                <span className="font-medium text-right ml-2">{value as string}</span>
+              </li>
+            ))}
+          </ul>
+      </div>
+     )}
 
       <div className="flex gap-4">
         <AddToCartButton
