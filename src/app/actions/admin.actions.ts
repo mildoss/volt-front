@@ -4,7 +4,7 @@ import {fetchClient} from "@/lib/api";
 import {revalidatePath} from "next/cache";
 
 export async function deleteProduct(id: number) {
-  const res = await fetchClient(`/product/${id}`, {
+  const res = await fetchClient(`/products/${id}`, {
     method: 'DELETE'
   })
 
@@ -55,4 +55,10 @@ export async function updateProduct(id: number, data: any) {
 
   revalidatePath('/admin/products');
   return { success: true };
+}
+
+export async function getStatistics() {
+  const res = await fetchClient('/statistics/main', { cache: 'no-store' });
+  if (res?.error) return [];
+  return res;
 }

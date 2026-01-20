@@ -74,3 +74,9 @@ export type Order = {
   createdAt: string;
   user: User;
 }
+
+export type StatisticItem = {
+  name: string;
+  value: number;
+  isMoney?: boolean;
+}
