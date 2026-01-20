@@ -36,3 +36,13 @@ export async function updateProfile(formData: UserUpdateData) {
   revalidatePath('/profile');
   return { success: true };
 }
+
+export async function uploadFile(formData: FormData) {
+  const res = await fetchClient('/media', {
+    method: 'POST',
+    body: formData
+  });
+
+  if (res?.error) return { error: res.error };
+  return res;
+}
