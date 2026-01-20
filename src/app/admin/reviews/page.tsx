@@ -1,4 +1,4 @@
-import {getAdminReviews} from "@/app/actions/review.action";
+import {getAdminReviews} from "@/app/actions/review.actions";
 import {AdminReviewList} from "@/components/admin/AdminReviewsList";
 import {Review} from "@/types/product";
 

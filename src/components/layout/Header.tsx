@@ -1,6 +1,6 @@
 import Link from "next/link";
 import {getProfile} from "@/app/actions/auth.actions";
-import {getCart} from "@/app/actions/cart.action";
+import {getCart} from "@/app/actions/cart.actions";
 import {CartSheet} from "@/components/cart/CartSheet";
 import {UserAvatar} from "@/components/ui/user-avatar";
 

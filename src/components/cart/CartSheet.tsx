@@ -8,7 +8,7 @@ import {DialogDescription} from "@/components/ui/dialog";
 import Link from "next/link";
 import Image from "next/image";
 import {useTransition} from "react";
-import {removeFromCart, updateQuantity} from "@/app/actions/cart.action";
+import {removeFromCart, updateQuantity} from "@/app/actions/cart.actions";
 import {formatPrice} from "@/lib/utils";
 
 export const CartSheet = ({cart}: { cart: Cart | null }) => {

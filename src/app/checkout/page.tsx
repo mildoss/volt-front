@@ -1,5 +1,5 @@
 import {CheckoutForm} from "@/components/checkout/CheckoutForm";
-import {getCart} from "@/app/actions/cart.action";
+import {getCart} from "@/app/actions/cart.actions";
 import {redirect} from "next/navigation";
 import {Metadata} from "next";
 import {getProfile} from "@/app/actions/auth.actions";

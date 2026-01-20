@@ -2,7 +2,7 @@
 
 import { Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {deleteReview} from "@/app/actions/review.action";
+import {deleteReview} from "@/app/actions/review.actions";
 import { toast } from "sonner";
 import { useTransition } from "react";
 import Image from "next/image";

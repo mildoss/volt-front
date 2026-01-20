@@ -1,7 +1,7 @@
 'use client'
 
 import {useState} from "react";
-import {leaveReview} from "@/app/actions/review.action";
+import {leaveReview} from "@/app/actions/review.actions";
 import {Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger} from "@/components/ui/dialog";
 import {Label} from "@/components/ui/label";
 import {Textarea} from "@/components/ui/textarea";

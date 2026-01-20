@@ -3,7 +3,7 @@
 import {Button} from "@/components/ui/button";
 import {useRouter} from "next/navigation";
 import {useState, useTransition} from "react";
-import {toggleFavorite} from "@/app/actions/user.action";
+import {toggleFavorite} from "@/app/actions/user.actions";
 
 type Props = {
   productId: number;

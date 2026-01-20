@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import {ChangeEvent, useTransition} from "react";
-import { updateProfile, uploadFile } from "@/app/actions/user.action";
+import { updateProfile, uploadFile } from "@/app/actions/user.actions";
 import { User } from "@/types/product";
 import { useRouter } from "next/navigation";
 import {toast} from "sonner";

@@ -3,7 +3,7 @@
 import {Button} from "@/components/ui/button";
 import {useTransition} from "react";
 import {useRouter} from "next/navigation";
-import {addToCart} from "@/app/actions/cart.action";
+import {addToCart} from "@/app/actions/cart.actions";
 import {toast} from "sonner";
 
 type Props = {
