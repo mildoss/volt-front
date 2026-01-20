@@ -22,3 +22,21 @@ export async function leaveReview(productId: number, productSlug: string, formDa
   revalidatePath(`/product/${productSlug}`);
   return { success: true };
 }
+
+export async function getAdminReviews() {
+  const res = await fetchClient('/reviews/all', { cache: 'no-store' });
+  if (res?.error) return [];
+  return res;
+}
+
+export async function deleteReview(id: number) {
+  const res = await fetchClient(`/reviews/${id}`, {
+    method: 'DELETE'
+  });
+
+  if (res?.error) return { error: res.error };
+
+  revalidatePath('/admin/reviews');
+  revalidatePath('/');
+  return { success: true };
+}

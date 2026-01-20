@@ -15,6 +15,11 @@ export type Review = {
   rating: number;
   createdAt: string;
   user: User;
+  product: {
+    id: number;
+    name: string;
+    imageUrl: string;
+  };
 }
 
 export type Product = {
