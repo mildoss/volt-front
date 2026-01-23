@@ -1,13 +1,16 @@
 import {getAdminOrders} from "@/app/actions/order.actions";
 import {AdminOrderList} from "@/components/admin/AdminOrderList";
-import {Order} from "@/types/product";
+import {Pagination} from "@/components/ui/Pagination";
 
-export default async function AdminOrdersPage() {
-  const orders = await getAdminOrders() as Order[];
+export default async function AdminOrdersPage({ searchParams }: { searchParams: Promise<string> }) {
+  const params = await searchParams;
+  const queryString = new URLSearchParams(params).toString();
+
+  const data = await getAdminOrders(queryString);
 
   return (
     <div>
-      <h1 className="text-3xl font-bold mb-8">Orders ({orders.length})</h1>
+      <h1 className="text-3xl font-bold mb-8">Orders ({data.length})</h1>
 
       <div className="bg-card rounded-xl border border-border shadow-sm overflow-hidden">
         <table className="w-full text-sm text-left">
@@ -22,18 +25,20 @@ export default async function AdminOrdersPage() {
           </tr>
           </thead>
           <tbody className="divide-y divide-border">
-          {orders.map((order: any) => (
+          {data.items.map((order) => (
             <AdminOrderList key={order.id} order={order} />
           ))}
           </tbody>
         </table>
 
-        {orders.length === 0 && (
+        {data.length === 0 && (
           <div className="p-10 text-center text-muted-foreground">
             No orders found.
           </div>
         )}
       </div>
+
+      <Pagination length={data.length} />
     </div>
   )
 }

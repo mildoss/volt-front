@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { fetchClient } from "@/lib/api";
-import {OrderStatus} from "@/types/product";
+import {Order, OrderStatus, PaginationResponse} from "@/types/product";
 
 export type CheckoutFormData = {
   address: string;
@@ -28,10 +28,10 @@ export async function getMyOrders() {
   return res;
 }
 
-export async function getAdminOrders() {
-  const res = await fetchClient('/orders/all', { cache: 'no-store' });
-  if (res?.error) return [];
-  return res;
+export async function getAdminOrders(searchParams: string): Promise<PaginationResponse<Order>> {
+  const res = await fetchClient(`/orders/all?${searchParams}`, { cache: 'no-store' });
+  if (res?.error) return { items: [], length: 0 };
+  return res as PaginationResponse<Order>;
 }
 
 export async function updateOrderStatus(id: number, status: OrderStatus) {

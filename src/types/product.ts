@@ -80,3 +80,8 @@ export type StatisticItem = {
   value: number;
   isMoney?: boolean;
 }
+
+export type PaginationResponse<T> = {
+  items: T[];
+  length: number;
+}

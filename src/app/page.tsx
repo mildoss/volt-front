@@ -1,8 +1,13 @@
-import {Product} from "@/types/product";
+import {PaginationResponse, Product} from "@/types/product";
 import {ProductCard} from "@/components/product/ProductCard";
 import {ProductFilters} from "@/components/product/ProductFilters";
+import {Pagination} from "@/components/ui/Pagination";
 
-const getProducts = async (searchParams: {sort?: string, searchTerm?: string}) => {
+const getProducts = async (searchParams: {
+  sort?: string,
+  searchTerm?: string,
+  page?: string
+}): Promise<PaginationResponse<Product>> => {
   const params = new URLSearchParams();
 
   Object.entries(searchParams).forEach(([key, value]) => {
@@ -21,12 +26,12 @@ const getProducts = async (searchParams: {sort?: string, searchTerm?: string}) =
 }
 
 type Props = {
-  searchParams: Promise<{[key: string]: string | undefined}>
+  searchParams: Promise<{ [key: string]: string | undefined }>
 }
 
 export default async function ProductPage({searchParams}: Props) {
   const params = await searchParams;
-  const products: Product[] = await getProducts(params);
+  const data = await getProducts(params);
 
   return (
     <div className="flex-1 mt-8 pb-10">
@@ -35,15 +40,17 @@ export default async function ProductPage({searchParams}: Props) {
 
         <ProductFilters/>
 
-        {products.length === 0 ? (
+        {data.items.length === 0 ? (
           <div className="text-center text-muted-foreground mt-10">No products yet.</div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {products.map((product) => (
+            {data.items.map((product: Product) => (
               <ProductCard key={product.id} product={product}/>
             ))}
           </div>
         )}
+
+        <Pagination length={data.length}/>
       </div>
     </div>
   );
