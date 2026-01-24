@@ -7,13 +7,17 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import {ChangeEvent, useTransition} from "react";
+import {ChangeEvent, ReactNode, useEffect, useState, useTransition} from "react";
 import { createProduct, updateProduct, uploadFile } from "@/app/actions/admin.actions";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { Product } from "@/types/product";
 import { Trash2, Plus, X } from "lucide-react";
 import Image from "next/image";
+import {createCategory, deleteCategory, getCategories} from "@/app/actions/category.actions";
+import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
+import {Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle} from "@/components/ui/dialog";
+import {Label} from "@/components/ui/label";
 
 const formSchema = z.object({
   name: z.string().min(3, "Name must be at least 3 characters"),
@@ -33,6 +37,9 @@ type TypeProductForm = z.infer<typeof formSchema>;
 export const ProductForm = ({ product }: { product?: Product }) => {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
+  const [categories, setCategories] = useState<{ id: number; name: string }[]>([]);
+  const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
+  const [newCategoryName, setNewCategoryName] = useState('');
 
   const initialSpecs = product?.specs
     ? Object.entries(product.specs).map(([key, value]) => ({ key, value }))
@@ -55,6 +62,41 @@ export const ProductForm = ({ product }: { product?: Product }) => {
     control: form.control,
     name: "specs"
   });
+
+  useEffect(() => {
+    getCategories().then(setCategories);
+  }, []);
+
+  const handleCreateCategory = async () => {
+    if (!newCategoryName.trim()) return;
+
+    const res = await createCategory(newCategoryName);
+    if (res?.error) {
+      toast.error(res.error);
+    } else {
+      toast.success('Category created!');
+      setCategories([...categories, res.category]);
+      form.setValue('categoryId', res.category.id.toString());
+      setIsCategoryModalOpen(false);
+      setNewCategoryName('');
+    }
+  };
+
+  const handleDeleteCategory = async (id: number) => {
+    if(!confirm('Are you sure?')) return;
+
+    const res = await deleteCategory(id);
+    if (res?.error) {
+      toast.error(res.error);
+    } else {
+      toast.success('Category deleted');
+      setCategories(categories.filter(c => c.id !== id));
+
+      if (form.getValues('categoryId') === id.toString()) {
+        form.setValue('categoryId', '');
+      }
+    }
+  };
 
   const onSubmit: SubmitHandler<TypeProductForm> = (values) => {
     const specsObject = values.specs?.reduce((acc, item) => {
@@ -164,8 +206,29 @@ export const ProductForm = ({ product }: { product?: Product }) => {
             name="categoryId"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Category ID</FormLabel>
-                <FormControl><Input type="number" {...field} /></FormControl>
+                <FormLabel className="flex justify-between items-center">
+                  Category
+                  <span
+                    onClick={() => setIsCategoryModalOpen(true)}
+                    className="text-xs text-primary cursor-pointer hover:underline"
+                  >
+                    + Add New
+                  </span>
+                </FormLabel>
+                <Select onValueChange={field.onChange} value={field.value}>
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select category" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {categories.map((cat: {id: number, name: string}) => (
+                      <SelectItem key={cat.id} value={cat.id.toString()}>
+                        {cat.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
                 <FormMessage />
               </FormItem>
             )}
@@ -270,6 +333,58 @@ export const ProductForm = ({ product }: { product?: Product }) => {
         </div>
 
       </form>
+
+      <Dialog open={isCategoryModalOpen} onOpenChange={setIsCategoryModalOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Manage Categories</DialogTitle>
+          </DialogHeader>
+
+          <div className="flex flex-col gap-4 py-4">
+
+            <div className="flex gap-2 items-end">
+              <div className="flex-1">
+                <Label className="mb-2 block">New Category Name</Label>
+                <Input
+                  value={newCategoryName}
+                  onChange={(e) => setNewCategoryName(e.target.value)}
+                  placeholder="e.g. Tablets"
+                  onKeyDown={(e) => e.key === 'Enter' && handleCreateCategory()}
+                />
+              </div>
+              <Button onClick={handleCreateCategory} disabled={!newCategoryName.trim()}>
+                <Plus size={16} />
+              </Button>
+            </div>
+
+            <div className="h-px bg-border my-2" />
+
+            <div className="max-h-[200px] overflow-y-auto space-y-2 pr-1">
+              <Label>Existing Categories</Label>
+              {categories.length === 0 && <p className="text-sm text-muted-foreground">No categories yet.</p>}
+
+              {categories.map((cat) => (
+                <div key={cat.id} className="flex items-center justify-between bg-muted/40 p-2 rounded-md border">
+                  <span className="text-sm font-medium">{cat.name}</span>
+                  <Button
+                    variant="ghost"
+                    size="icon-sm"
+                    className="h-8 w-8 text-muted-foreground hover:text-destructive hover:bg-destructive/10 cursor-pointer"
+                    onClick={() => handleDeleteCategory(cat.id)}
+                  >
+                    <Trash2 size={16} />
+                  </Button>
+                </div>
+              ))}
+            </div>
+
+          </div>
+
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsCategoryModalOpen(false)}>Close</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </Form>
   )
 }

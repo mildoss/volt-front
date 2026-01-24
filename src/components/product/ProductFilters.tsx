@@ -21,6 +21,18 @@ export const ProductFilters = () => {
     getCategories().then(setCategories);
   }, []);
 
+  useEffect(() => {
+    if (searchTerm === (searchParams.get('searchTerm') || '')) return;
+
+    const handler = setTimeout(() => {
+      updateUrl('searchTerm', searchTerm);
+    }, 500);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [searchTerm]);
+
   const updateUrl = (key: string, value: string) => {
     const params = new URLSearchParams(searchParams.toString());
 
@@ -53,8 +65,6 @@ export const ProductFilters = () => {
             placeholder="Search products..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && updateUrl('searchTerm', searchTerm)}
-            onBlur={() => updateUrl('searchTerm', searchTerm)}
             className="w-full pl-10"
           />
         </div>
