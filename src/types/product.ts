@@ -70,6 +70,7 @@ export type Order = {
   id: number;
   status: OrderStatus;
   total: number;
+  comment?: string;
   items: OrderItem[];
   createdAt: string;
   user: User;

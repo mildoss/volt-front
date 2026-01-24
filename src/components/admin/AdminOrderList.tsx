@@ -30,6 +30,7 @@ export const AdminOrderList = ({order}: { order: Order }) => {
           <span className="font-bold">{order.user.fullName || 'Guest'}</span>
           <span className="text-xs text-muted-foreground">{order.user.email}</span>
           <span className="text-xs text-muted-foreground">{order.user.phone}</span>
+          {order.comment && <span className="text-xs text-muted-foreground">{order.comment}</span>}
         </div>
       </td>
 
