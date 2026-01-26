@@ -1,36 +1,80 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Volt Store Frontend
 
-## Getting Started
+A modern e-commerce application built with **Next.js 16**, **TypeScript**, and **Tailwind CSS v4**.
 
-First, run the development server:
+## 🚀 Features
 
-```bash
+### Client Side
+- **Product Catalog:** Browse products with advanced filtering and pagination.
+- **Product Details:** Image gallery, detailed information, and reviews.
+- **Shopping Cart:** Add items, adjust quantities, and manage cart state.
+- **Checkout:** Streamlined checkout process.
+- **User Profile:** Manage account details and view order history.
+- **Authentication:** Secure Login and Registration flows.
+
+### Admin Panel
+- **Dashboard:** Overview of store performance.
+- **Product Management:** Create, edit, and delete products.
+- **Order Management:** View and update order statuses.
+- **Reviews Management:** Moderate user reviews.
+
+## 🛠 Tech Stack
+
+- **Framework:** [Next.js 16](https://nextjs.org/) (App Router)
+- **Language:** [TypeScript](https://www.typescriptlang.org/)
+- **Styling:** [Tailwind CSS v4](https://tailwindcss.com/)
+- **UI Components:** [Radix UI](https://www.radix-ui.com/) (Primitives), [Lucide React](https://lucide.dev/) (Icons)
+- **State/Notifications:** [Sonner](https://sonner.emilkowal.ski/) (Toasts)
+- **Form Handling:** [React Hook Form](https://react-hook-form.com/) + [Zod](https://zod.dev/) validation
+
+## 📦 Getting Started
+
+### Prerequisites
+
+Ensure you have one of the following installed:
+- Node.js (v20+ recommended)
+- npm, yarn, pnpm, or bun
+
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone <repository-url>
+   cd volt-frontendInstall dependencies:
+Bash
+
+2. Install dependencies:
+npm install
+# or
+yarn install
+# or
+pnpm install
+
+3. Set up environment variables: Create a .env file in the root directory and add necessary variables (API URLs, etc.).
+
+4. Run the development server:
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+5. Open http://localhost:3000 with your browser to see the result.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+📜 Scripts
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+    npm run dev - Starts the development server with Webpack.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+    npm run build - Builds the application for production.
 
-## Learn More
+    npm run start - Starts the production server.
 
-To learn more about Next.js, take a look at the following resources:
+    npm run lint - Runs ESLint to check for code quality issues.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Project Structure
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+src/
+├── app/          # Next.js App Router pages (Admin, Auth, Shop)
+├── components/   # Reusable UI components
+│   ├── admin/    # Admin-specific components
+│   ├── auth/     # Login/Register forms
+│   ├── cart/     # Cart functionality
+│   ├── product/  # Product cards, galleries, filters
+│   └── ui/       # Shared UI primitives (Buttons, Inputs, etc.)
+├── lib/          # Utility functions and API configurations
+└── types/        # TypeScript type definitions
