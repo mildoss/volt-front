@@ -65,16 +65,3 @@ npm run dev
     npm run start - Starts the production server.
 
     npm run lint - Runs ESLint to check for code quality issues.
-
-Project Structure
-
-src/
-├── app/          # Next.js App Router pages (Admin, Auth, Shop)
-├── components/   # Reusable UI components
-│   ├── admin/    # Admin-specific components
-│   ├── auth/     # Login/Register forms
-│   ├── cart/     # Cart functionality
-│   ├── product/  # Product cards, galleries, filters
-│   └── ui/       # Shared UI primitives (Buttons, Inputs, etc.)
-├── lib/          # Utility functions and API configurations
-└── types/        # TypeScript type definitions
