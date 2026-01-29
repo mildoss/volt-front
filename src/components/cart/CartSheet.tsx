@@ -7,17 +7,18 @@ import {Minus, Plus, ShoppingCart, Trash2} from "lucide-react";
 import {DialogDescription} from "@/components/ui/dialog";
 import Link from "next/link";
 import Image from "next/image";
-import {useTransition} from "react";
+import {useState, useTransition} from "react";
 import {removeFromCart, updateQuantity} from "@/app/actions/cart.actions";
 import {formatPrice} from "@/lib/utils";
 
 export const CartSheet = ({cart}: { cart: Cart | null }) => {
   const [isPending, startTransition] = useTransition();
+  const [isOpen, setIsOpen] = useState(false);
 
   const total = cart?.items.reduce((acc, item) => acc + item.product.price * item.quantity, 0) || 0;
 
   return (
-    <Sheet>
+    <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger asChild>
         <Button variant="ghost" size="icon" className="relative cursor-pointer">
           <ShoppingCart size={24}/>
@@ -107,7 +108,7 @@ export const CartSheet = ({cart}: { cart: Cart | null }) => {
                 <span>Total:</span>
                 <span>{formatPrice(total)}</span>
               </div>
-              <Link href="/checkout" className="w-full block">
+              <Link href="/checkout" className="w-full block" onClick={() => setIsOpen(false)}>
                 <Button className="w-full h-12 text-base cursor-pointer">Checkout</Button>
               </Link>
             </div>
